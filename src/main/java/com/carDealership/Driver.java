@@ -1,5 +1,6 @@
 package com.carDealership;
 
+import com.carDealership.controller.CarController;
 import com.carDealership.controller.UserController;
 import io.javalin.Javalin;
 
@@ -8,8 +9,12 @@ public class Driver {
         Javalin app = Javalin.create().start(8080);
 
         UserController userController = new UserController();
+        CarController carController = new CarController();
 
         app.get("/", ctx -> ctx.result("Hello Welcome to Javy's Dealership"));
         app.get("/user", userController.getAllUsers);
+        app.get("/car", carController.getAllCars);
+
+
     }
 }
