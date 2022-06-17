@@ -13,11 +13,9 @@ public class Driver {
         CarController carController = new CarController();
         OfferController offerController = new OfferController();
 
-        app.get("/", ctx -> ctx.result("Hello Welcome to Javy's Dealership"));
+        app.get("/", ctx -> ctx.result("Hello Welcome to Javy's Luxury Auto Dealership"));
         app.get("/user", userController.getAllUsers);
         app.get("/car", carController.getAllCars);
         app.get("/offer", offerController.getAllOffers);
-
-
     }
 }
