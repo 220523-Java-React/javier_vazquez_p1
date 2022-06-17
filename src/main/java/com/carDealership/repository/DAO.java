@@ -14,8 +14,8 @@ public interface DAO<T> {
     T getById(long id);
 
     // Update object of type T by params
-    T update(T t, String[] params);
+    T updateByParams(T t, String[] params);
 
     // Delete object of type T
-    T delete(T t);
+    T deleteById(long id);
 }

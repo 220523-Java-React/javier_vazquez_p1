@@ -1,7 +1,7 @@
 package com.carDealership.model;
 
 public class User {
-    private int id;
+    private long id;
     private String firstName;
     private String lastName;
     private String username;
@@ -23,7 +23,7 @@ public class User {
         this.role = role;
     };
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

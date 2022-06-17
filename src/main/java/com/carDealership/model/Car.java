@@ -2,7 +2,7 @@ package com.carDealership.model;
 
 public class Car {
 
-    private int id;
+    private long id;
     private String make;
     private String model;
     private String trim;
@@ -22,7 +22,7 @@ public class Car {
         this.price = price;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
