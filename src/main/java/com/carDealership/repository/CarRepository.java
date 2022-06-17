@@ -52,6 +52,11 @@ public class CarRepository implements DAO<Car> {
     // Delete car by id
     @Override
     public Car deleteById(long id) {
+        for (int i = 0; i < cars.size(); i++) {
+            if (cars.get(i).getId() == id) {
+                return cars.get(i);
+            }
+        }
         return null;
     };
 }
