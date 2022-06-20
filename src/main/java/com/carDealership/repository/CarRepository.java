@@ -54,6 +54,9 @@ public class CarRepository implements DAO<Car> {
     public Car deleteById(long id) {
         for (int i = 0; i < cars.size(); i++) {
             if (cars.get(i).getId() == id) {
+                cars.get(i).setColor("ERASED");
+                cars.get(i).setMake("ERASED");
+                cars.get(i).setModel("ERASED");
                 return cars.get(i);
             }
         }

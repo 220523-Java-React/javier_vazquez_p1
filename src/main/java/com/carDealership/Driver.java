@@ -22,11 +22,14 @@ public class Driver {
         app.delete("/user/{id}", userController.deleteUserById);
 
         // Car routes
+        app.post("/car", carController.createCar);
         app.get("/car", carController.getAllCars);
-        app.get("/offer", offerController.getAllOffers);
+        app.get("/car/{id}", carController.getCarById);
+        app.delete("/car/{id}", carController.deleteCarById);
+
 
         // Offer routes
-
+        app.get("/offer", offerController.getAllOffers);
 
         // Dealership routes
     }

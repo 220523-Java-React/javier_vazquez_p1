@@ -11,6 +11,8 @@ public class Car {
     private String color;
     private double price;
 
+    public Car() {};
+
     public Car(int id, String make, String model, String trim, int year, int cylinders, String color, double price) {
         this.id = id;
         this.make = make;

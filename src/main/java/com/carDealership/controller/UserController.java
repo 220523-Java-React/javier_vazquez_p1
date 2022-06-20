@@ -41,12 +41,15 @@ public class UserController {
             ctx.json(userService.getUserById(id));
         }
         catch (NumberFormatException e) {
-            ctx.result("Please only enter integer values");
-            ctx.status(400);
+            ctx.result("Please only enter integer values").status(400);
         }
         catch (NullPointerException e) {
-            ctx.result("User with id: " + id + " was not found. Please enter a valid user id.");
-            ctx.status(404);
+            String failureMessage = "{" +
+                    "\"404 error\": \"User with id: " + id + " not found\"," +
+                    "\"message\": \"Please enter a valid user id.\"" +
+                    "}";
+
+            ctx.json(failureMessage).status(404);
         };
     };
 
@@ -63,12 +66,15 @@ public class UserController {
             ctx.json(userService.deleteUserById(id));
         }
         catch (NumberFormatException e) {
-            ctx.result("Please only enter integer values");
-            ctx.status(400);
+            ctx.result("Please only enter integer values").status(400);
         }
         catch (NullPointerException e) {
-            ctx.result("User with id: " + id + " was not found. Please enter a valid user id.");
-            ctx.status(404);
+            String failureMessage = "{" +
+                    "\"404 error\": \"User with id: " + id + " not found\"," +
+                    "\"message\": \"Please enter a valid user id.\"" +
+                    "}";
+
+            ctx.json(failureMessage).status(404);
         };
     };
 };
