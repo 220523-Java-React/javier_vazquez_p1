@@ -29,7 +29,7 @@ public class CarService {
         return carRepository.getById(id);
     };
 
-    public Car updateCarByParams(Car car, String[] params) {
+    public Car updateCarByParams(Car car, List<String> params) {
         return carRepository.updateByParams(car, params);
     };
 

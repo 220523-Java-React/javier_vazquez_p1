@@ -45,7 +45,7 @@ public class CarRepository implements DAO<Car> {
 
     // Update car by params
     @Override
-    public Car updateByParams(Car car, String[] params) {
+    public Car updateByParams(Car car, List<String> params) {
         return car;
     };
 
