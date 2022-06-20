@@ -29,7 +29,7 @@ public class UserService {
         return userRepository.getById(id);
     };
 
-    public User updateUserByParams(User user, String[] params) {
+    public User updateUserByParams(User user, List<String> params) {
         return userRepository.updateByParams(user, params);
     };
 

@@ -45,7 +45,7 @@ public class UserRepository implements DAO<User>{
 
     // Update user by params
     @Override
-    public User updateByParams(User user, String[] params) {
+    public User updateByParams(User user, List<String> params) {
         return user;
     };
 
@@ -54,6 +54,9 @@ public class UserRepository implements DAO<User>{
     public User deleteById(long id) {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getId() == id) {
+                users.get(i).setFirstName("ERASED!!!");
+                users.get(i).setLastName("ERASED!!!");
+                users.get(i).setEmail("ERASED!!!");
                 return users.get(i);
             }
         }
