@@ -4,3 +4,4 @@ out
 **.iml
 **/gradle
 **/.gradle
+src/main/resources/db-config.properties

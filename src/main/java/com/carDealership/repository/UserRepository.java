@@ -1,7 +1,12 @@
 package com.carDealership.repository;
 
 import com.carDealership.model.User;
+import com.carDealership.util.ConnectionUtility;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +34,35 @@ public class UserRepository implements DAO<User>{
     // Get all users
     @Override
     public List<User> getAll() {
+
+
+        List<User> users = new ArrayList<>();
+
+        String sql = "select * from users";
+
+        try (Connection connection = ConnectionUtility.getConnection()){
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet results = stmt.executeQuery();
+
+            while(results.next()) {
+                System.out.println(results.getString("first_name"));
+            };
+
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        };
+
+
+
+
+
+
+
+
+
+
+
         return users;
     }
 
