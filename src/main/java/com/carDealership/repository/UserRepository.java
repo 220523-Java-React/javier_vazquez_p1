@@ -35,7 +35,6 @@ public class UserRepository implements DAO<User>{
     @Override
     public List<User> getAll() {
 
-
         List<User> users = new ArrayList<>();
 
         String sql = "select * from users";
@@ -45,23 +44,21 @@ public class UserRepository implements DAO<User>{
             ResultSet results = stmt.executeQuery();
 
             while(results.next()) {
-                System.out.println(results.getString("first_name"));
+                users.add(
+                    new User()
+                            .setId(results.getInt("id"))
+                            .setFirstName(results.getString("first_name"))
+                            .setLastName(results.getString("last_name"))
+                            .setUsername(results.getString("username"))
+                            .setPassword(results.getString("password"))
+                            .setEmail(results.getString("email"))
+                );
             };
 
         }
         catch (SQLException e){
             e.printStackTrace();
         };
-
-
-
-
-
-
-
-
-
-
 
         return users;
     }

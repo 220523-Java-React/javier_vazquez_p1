@@ -13,24 +13,18 @@ public class ConnectionUtility {
     private static Properties connectionProperties;
 
     public static Connection getConnection() throws SQLException{
-        System.out.println("attempting to get connection");
 
-            if (connectionProperties == null) {
-                connectionProperties = loadConnectionProperties();
-            }
+        if (connectionProperties == null) {
+            connectionProperties = loadConnectionProperties();
+        }
 
-            if (instance == null || instance.isClosed()) {
-                    instance = DriverManager.getConnection(
-                            connectionProperties.getProperty("url"),
-                            connectionProperties.getProperty("user"),
-                            connectionProperties.getProperty("password")
-                    );
-
-                System.out.println("creating connection");
-            }
-            else {
-                System.out.println("already connected");
-            }
+        if (instance == null || instance.isClosed()) {
+            instance = DriverManager.getConnection(
+                connectionProperties.getProperty("url"),
+                connectionProperties.getProperty("user"),
+                connectionProperties.getProperty("password")
+            );
+        }
 
         return instance;
     };
