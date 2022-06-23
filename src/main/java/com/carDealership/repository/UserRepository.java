@@ -119,7 +119,45 @@ public class UserRepository implements DAO<User>{
 
     // Update user by id
     @Override
-    public User updateById(long id) {
+    public User updateById(User user, long id) {
+
+        String sql = "update users set first_name = ?, last_name = ?, username = ?, password = ?, email = ? , role_id = ? where id = ? ";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, user.getFirstName());
+            stmt.setString(2, user.getLastName());
+            stmt.setString(3, user.getUsername());
+            stmt.setString(4, user.getPassword());
+            stmt.setString(5, user.getEmail());
+            stmt.setInt(6, user.getRole().ordinal());
+
+            stmt.setLong(7, id);
+
+            int success = stmt.executeUpdate();
+
+            if(success != 0) {
+                return getById(id);
+            }
+        }
+        catch(PSQLException e) {
+            User notAUser = new User();
+            notAUser.setFirstName("NOT_UPDATED");
+
+            return notAUser;
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        };
+
+
+
+
+
+
+
+
+
         return null;
     };
 

@@ -78,10 +78,36 @@ public class UserController {
     };
 
     public Handler updateUserById = ctx -> {
-        long id = 0;
-        userService.updateUserById(id);
-        
-        ctx.result("updated");
+        String idParam = ctx.pathParam("id");
+        Long id;
+
+        try {
+            id = Long.parseLong(idParam);
+
+            User user = ctx.bodyAsClass(User.class);
+                 user = userService.updateUserById(user, id);
+
+            if (user != null) {
+                if (user.getFirstName() != "NOT_UPDATED") {
+                    ctx.json(user);
+                }
+                else {
+                    ctx.result("Not Updated");
+                }
+            }
+            else {
+                String failureMessage = "{" +
+                        "\"404 error\": \"User Not Found\"," +
+                        "\"message\": \"User with id: " + id + " not found\"," +
+                        "\"message2\": \"Please enter a valid user id.\"" +
+                        "}";
+
+                ctx.json(failureMessage).status(404);
+            }
+        }
+        catch (NumberFormatException e) {
+            ctx.result("Please only enter integer values").status(400);
+        };
     };
 
 //    public Handler updateUserByParams = ctx -> {

@@ -19,6 +19,7 @@ public class Driver {
         app.post("/user", userController.createUser);
         app.get("/user", userController.getAllUsers);
         app.get("/user/{id}", userController.getUserById);
+        app.put("/user/{id}", userController.updateUserById);
         app.delete("/user/{id}", userController.deleteUserById);
 
         // Car routes

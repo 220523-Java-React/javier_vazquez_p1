@@ -29,8 +29,8 @@ public class UserService {
         return userRepository.getById(id);
     };
 
-    public User updateUserById(long id) {
-        return userRepository.updateById(id);
+    public User updateUserById(User user, long id) {
+        return userRepository.updateById(user, id);
     };
 
 //    public User updateUserByParams(User user, List<String> params) {
