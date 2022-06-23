@@ -29,8 +29,8 @@ public class CarService {
         return carRepository.getById(id);
     };
 
-    public Car updateCarById(long id) {
-        return carRepository.updateById(id);
+    public Car updateCarById(Car car, long id) {
+        return carRepository.updateById(car, id);
     };
 //    public Car updateCarByParams(Car car, List<String> params) {
 //        return carRepository.updateByParams(car, params);

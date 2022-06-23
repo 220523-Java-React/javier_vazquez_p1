@@ -13,8 +13,8 @@ public interface DAO<T> {
     // Read - get object in List of type T by id
     T getById(long id);
 
-    // Update object of type T by params
-    T updateById(long id);
+    // Update object of type T by id
+    T updateById(T t, long id);
 
     // Delete object of type T
     T deleteById(long id);

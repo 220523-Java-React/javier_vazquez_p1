@@ -53,9 +53,9 @@ public class CarController {
     };
 
     public Handler updateCarById = ctx -> {
-        long id = 0;
+        Car car = new Car();
 
-        carService.updateCarById(id);
+//        carService.updateCarById(car, id);
         ctx.result("updated");
     };
 

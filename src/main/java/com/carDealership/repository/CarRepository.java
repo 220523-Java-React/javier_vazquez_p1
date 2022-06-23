@@ -45,7 +45,7 @@ public class CarRepository implements DAO<Car> {
 
     // Update car by id
     @Override
-    public Car updateById(long id) {
+    public Car updateById(Car car, long id) {
         return null;
     };
 
