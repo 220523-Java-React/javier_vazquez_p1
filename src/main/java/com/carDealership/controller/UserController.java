@@ -116,19 +116,34 @@ public class UserController {
 
     public Handler deleteUserById = ctx -> {
         String idParam = ctx.pathParam("id");
-        long id = -1;
-
         try {
-            id = Integer.parseInt(idParam);
-            ctx.json(userService.deleteUserById(id));
+            long id = Long.parseLong(idParam);
+
+            if (userService.deleteUserById(id).getFirstName() == "DELETED_USER") {
+                String deleteSuccess = "{" +
+                        "\"200 status\": \"Success\"," +
+                        "\"message\": \"User with id: " + idParam + " was successfully deleted.\"," +
+                        "}";
+
+                ctx.status(200).json(deleteSuccess);
+            }
+            else {
+                String failureMessage = "{" +
+                        "\"400 error\": \"Bad Request\"," +
+                        "\"message\": \"User with id: " + idParam + " was not deleted.\"," +
+                        "}";
+
+                ctx.json(failureMessage).status(400);
+            }
         }
         catch (NumberFormatException e) {
             ctx.result("Please only enter integer values").status(400);
         }
-        catch (NullPointerException e) {
+        catch(NullPointerException e) {
             String failureMessage = "{" +
-                    "\"404 error\": \"User with id: " + id + " not found\"," +
-                    "\"message\": \"Please enter a valid user id.\"" +
+                    "\"404 error\": \"Not Found\"," +
+                    "\"message\": \"User with id: " + idParam + " not found. Please enter a valid user id.\"," +
+                    "\"message2\": \"No User was deleted.\"" +
                     "}";
 
             ctx.json(failureMessage).status(404);

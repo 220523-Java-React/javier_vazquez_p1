@@ -150,14 +150,6 @@ public class UserRepository implements DAO<User>{
             e.printStackTrace();
         };
 
-
-
-
-
-
-
-
-
         return null;
     };
 
@@ -170,14 +162,24 @@ public class UserRepository implements DAO<User>{
     // Delete user by id
     @Override
     public User deleteById(long id) {
-//        for (int i = 0; i < users.size(); i++) {
-//            if (users.get(i).getId() == id) {
-//                users.get(i).setFirstName("ERASED!!!");
-//                users.get(i).setLastName("ERASED!!!");
-//                users.get(i).setEmail("ERASED!!!");
-//                return users.get(i);
-//            }
-//        }
-        return null;
+      String sql = "delete from users where id = ?";
+
+      try(Connection connection = ConnectionUtility.getConnection()) {
+          PreparedStatement stmt = connection.prepareStatement(sql);
+          stmt.setLong(1, id);
+
+          int success = stmt.executeUpdate();
+
+          if (success != 0) {
+              return new User().setFirstName("DELETED_USER");
+          }
+      }
+      catch (SQLException e) {
+          e.printStackTrace();
+      };
+
+        User user = getById(id);
+        return new User();
+
     };
 }
