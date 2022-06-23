@@ -5,8 +5,6 @@ import com.carDealership.model.User;
 import com.carDealership.service.UserService;
 import io.javalin.http.Handler;
 
-import java.util.List;
-
 public class UserController {
 
     UserService userService;
@@ -79,9 +77,16 @@ public class UserController {
         };
     };
 
-    public Handler updateUserByParams = ctx -> {
-        List<String> params = ctx.queryParams("");
+    public Handler updateUserById = ctx -> {
+        long id = 0;
+        userService.updateUserById(id);
+        
+        ctx.result("updated");
     };
+
+//    public Handler updateUserByParams = ctx -> {
+//        List<String> params = ctx.queryParams("");
+//    };
 
     public Handler deleteUserById = ctx -> {
         String idParam = ctx.pathParam("id");

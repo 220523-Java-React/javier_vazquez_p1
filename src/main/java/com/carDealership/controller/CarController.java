@@ -4,8 +4,6 @@ import com.carDealership.model.Car;
 import com.carDealership.service.CarService;
 import io.javalin.http.Handler;
 
-import java.util.List;
-
 public class CarController {
 
     CarService carService;
@@ -54,9 +52,16 @@ public class CarController {
         };
     };
 
-    public Handler updateCarByParams = ctx -> {
-        List<String> params = ctx.queryParams("");
+    public Handler updateCarById = ctx -> {
+        long id = 0;
+
+        carService.updateCarById(id);
+        ctx.result("updated");
     };
+
+//    public Handler updateCarByParams = ctx -> {
+//        List<String> params = ctx.queryParams("");
+//    };
 
     public Handler deleteCarById = ctx -> {
         String idParam = ctx.pathParam("id");

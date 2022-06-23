@@ -29,9 +29,12 @@ public class CarService {
         return carRepository.getById(id);
     };
 
-    public Car updateCarByParams(Car car, List<String> params) {
-        return carRepository.updateByParams(car, params);
+    public Car updateCarById(long id) {
+        return carRepository.updateById(id);
     };
+//    public Car updateCarByParams(Car car, List<String> params) {
+//        return carRepository.updateByParams(car, params);
+//    };
 
     public Car deleteCarById(long id) {
         return carRepository.deleteById(id);

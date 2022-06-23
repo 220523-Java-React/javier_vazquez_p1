@@ -43,11 +43,17 @@ public class CarRepository implements DAO<Car> {
         return null;
     };
 
-    // Update car by params
+    // Update car by id
     @Override
-    public Car updateByParams(Car car, List<String> params) {
-        return car;
+    public Car updateById(long id) {
+        return null;
     };
+
+//    // Update car by params
+//    @Override
+//    public Car updateById(long id) {
+//        return car;
+//    };
 
     // Delete car by id
     @Override

@@ -117,11 +117,17 @@ public class UserRepository implements DAO<User>{
         return null;
     };
 
-    // Update user by params
+    // Update user by id
     @Override
-    public User updateByParams(User user, List<String> params) {
-        return user;
+    public User updateById(long id) {
+        return null;
     };
+
+//    // Update user by params
+//    @Override
+//    public User updateByParams(User user, List<String> params) {
+//        return user;
+//    };
 
     // Delete user by id
     @Override

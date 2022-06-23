@@ -3,8 +3,8 @@ package com.carDealership.model;
 import java.util.Objects;
 
 public class User {
-    private long id;
 
+    private long id;
     private String firstName;
     private String lastName;
     private String username;
@@ -14,15 +14,15 @@ public class User {
 
     public User(){};
 
-//    public User(int id, String firstName, String lastName, String username, String password, String email, Role role) {
-//        this.id = id;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.username = username;
-//        this.password = password;
-//        this.email = email;
-//        this.role = role;
-//    };
+    public User(int id, String firstName, String lastName, String username, String password, String email, Role role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    };
 
     public long getId() {
         return id;
