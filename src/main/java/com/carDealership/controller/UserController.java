@@ -55,22 +55,27 @@ public class UserController {
     public Handler getUserById = ctx -> {
 
         String idParam = ctx.pathParam("id");
-        long id = -1;
+        Long id;
 
         try {
-            id = Integer.parseInt(idParam);
-            ctx.json(userService.getUserById(id));
+            id = Long.parseLong(idParam);
+            User user = userService.getUserById(id);
+
+            if (user != null) {
+                ctx.json(user);
+            }
+            else {
+                String failureMessage = "{" +
+                        "\"404 error\": \"User Not Found\"," +
+                        "\"message\": \"User with id: " + id + " not found\"," +
+                        "\"message2\": \"Please enter a valid user id.\"" +
+                        "}";
+
+                ctx.json(failureMessage).status(404);
+            }
         }
         catch (NumberFormatException e) {
             ctx.result("Please only enter integer values").status(400);
-        }
-        catch (NullPointerException e) {
-            String failureMessage = "{" +
-                    "\"404 error\": \"User with id: " + id + " not found\"," +
-                    "\"message\": \"Please enter a valid user id.\"" +
-                    "}";
-
-            ctx.json(failureMessage).status(404);
         };
     };
 

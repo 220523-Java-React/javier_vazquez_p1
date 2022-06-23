@@ -68,19 +68,19 @@ public class UserRepository implements DAO<User>{
             while(results.next()) {
                 users.add(
                     new User()
-                            .setId(results.getInt("id"))
-                            .setFirstName(results.getString("first_name"))
-                            .setLastName(results.getString("last_name"))
-                            .setUsername(results.getString("username"))
-                            .setPassword(results.getString("password"))
-                            .setEmail(results.getString("email"))
-                            .setRole(Role.values()[results.getInt("role_id")])
+                        .setId(results.getInt("id"))
+                        .setFirstName(results.getString("first_name"))
+                        .setLastName(results.getString("last_name"))
+                        .setUsername(results.getString("username"))
+                        .setPassword(results.getString("password"))
+                        .setEmail(results.getString("email"))
+                        .setRole(Role.values()[results.getInt("role_id")])
                 );
             };
 
         }
         catch (SQLException e){
-            e.printStackTrace();
+            return null;
         };
 
         return users;
@@ -89,11 +89,31 @@ public class UserRepository implements DAO<User>{
     // Get user by id
     @Override
     public User getById(long id) {
-//        for (int i = 0; i < users.size(); i++) {
-//            if (users.get(i).getId() == id) {
-//                return users.get(i);
-//            }
-//        }
+        String sql = "select * from users where id = ?";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setLong(1, id);
+
+            ResultSet results = stmt.executeQuery();
+            if (results.next()) {
+                User user = new User();
+                user
+                    .setId(results.getLong("id"))
+                    .setFirstName(results.getString("first_name"))
+                    .setLastName(results.getString("last_name"))
+                    .setUsername(results.getString("username"))
+                    .setPassword(results.getString("password"))
+                    .setEmail(results.getString("email"))
+                    .setRole(Role.values()[results.getInt("role_id")]);
+
+                return user;
+            }
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        };
+
         return null;
     };
 

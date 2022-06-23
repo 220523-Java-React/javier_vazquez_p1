@@ -28,7 +28,7 @@ public class User {
         return id;
     };
 
-    public User setId(int id) {
+    public User setId(long id) {
         this.id = id;
         return this;
     };
