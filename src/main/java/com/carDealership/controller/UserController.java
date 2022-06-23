@@ -22,9 +22,30 @@ public class UserController {
     public Handler createUser = ctx -> {
 
         User user = ctx.bodyAsClass(User.class);
-        userService.createUser(user);
+        user = userService.createUser(user);
 
-        ctx.json(user).status(201);
+        if (user != null) {
+            if (user.getFirstName() == "NOT_CREATED") {
+                String failureMessage = "{" +
+                        "\"400 error\": \"Bad Request\"," +
+                        "\"message\": \"User not created. Username or email already exists.\"" +
+                        "}";
+
+                ctx.json(failureMessage).status(400);
+            }
+            else {
+                ctx.json(user).status(201);
+            }
+        }
+        else {
+            String failureMessage = "{" +
+                    "\"400 error\": \"Bad Request\"," +
+                    "\"message\": \"User not created. Something went wrong. \"" +
+                    "}";
+
+            ctx.json(failureMessage).status(400);
+        }
+
     };
 
     public Handler getAllUsers = ctx -> {

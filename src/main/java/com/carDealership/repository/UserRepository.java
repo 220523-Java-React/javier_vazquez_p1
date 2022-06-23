@@ -1,34 +1,56 @@
 package com.carDealership.repository;
 
+import com.carDealership.model.Role;
 import com.carDealership.model.User;
 import com.carDealership.util.ConnectionUtility;
+import org.postgresql.util.PSQLException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepository implements DAO<User>{
 
-    private List<User> users;
-
-    public UserRepository() {
-        users = new ArrayList<>();
-    };
-
-    public UserRepository(List<User> users) {
-        this.users = users;
-    };
-
     // Create user
     @Override
     public User create(User user) {
-        if(users.add(user)) {
-            return user;
+
+        String sql = "insert into users(first_name, last_name, username, password, email, role_id) values(?,?,?,?,?,?)";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, user.getFirstName());
+            stmt.setString(2, user.getLastName());
+            stmt.setString(3, user.getUsername());
+            stmt.setString(4, user.getPassword());
+            stmt.setString(5, user.getEmail());
+            stmt.setInt(6, user.getRole().ordinal());
+
+            int success = stmt.executeUpdate();
+            ResultSet keys = stmt.getGeneratedKeys();
+            if(keys.next()) {
+                int id = keys.getInt(1);
+                if (id != 0) {
+                    return user.setId(id);
+                }
+            }
         }
+        catch(PSQLException e) {
+            User notAUser = new User();
+            notAUser.setFirstName("NOT_CREATED");
+
+            return notAUser;
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        };
+
         return null;
+
+//        if(users.add(user)) {
+//            return user;
+//        }
+//        return null;
     };
 
     // Get all users
@@ -52,6 +74,7 @@ public class UserRepository implements DAO<User>{
                             .setUsername(results.getString("username"))
                             .setPassword(results.getString("password"))
                             .setEmail(results.getString("email"))
+                            .setRole(Role.values()[results.getInt("role_id")])
                 );
             };
 
@@ -66,11 +89,11 @@ public class UserRepository implements DAO<User>{
     // Get user by id
     @Override
     public User getById(long id) {
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getId() == id) {
-                return users.get(i);
-            }
-        }
+//        for (int i = 0; i < users.size(); i++) {
+//            if (users.get(i).getId() == id) {
+//                return users.get(i);
+//            }
+//        }
         return null;
     };
 
@@ -83,14 +106,14 @@ public class UserRepository implements DAO<User>{
     // Delete user by id
     @Override
     public User deleteById(long id) {
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getId() == id) {
-                users.get(i).setFirstName("ERASED!!!");
-                users.get(i).setLastName("ERASED!!!");
-                users.get(i).setEmail("ERASED!!!");
-                return users.get(i);
-            }
-        }
+//        for (int i = 0; i < users.size(); i++) {
+//            if (users.get(i).getId() == id) {
+//                users.get(i).setFirstName("ERASED!!!");
+//                users.get(i).setLastName("ERASED!!!");
+//                users.get(i).setEmail("ERASED!!!");
+//                return users.get(i);
+//            }
+//        }
         return null;
     };
 }

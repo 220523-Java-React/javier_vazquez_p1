@@ -1,7 +1,10 @@
 package com.carDealership.model;
 
+import java.util.Objects;
+
 public class User {
     private long id;
+
     private String firstName;
     private String lastName;
     private String username;
@@ -83,16 +86,32 @@ public class User {
         this.role = role;
         return this;
     };
-}
 
-enum Role {
-    MANAGER("MANAGER"),
-    SALESMAN("SALESMAN"),
-    BUYER("BUYER");
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && role == user.role;
+    };
 
-    final String value;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, username, password, email, role);
+    };
 
-    Role(String value) {
-        this.value = value;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                '}';
     };
 };
+
+
