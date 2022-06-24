@@ -5,14 +5,14 @@ import java.util.Objects;
 public class Offer {
 
     private long id;
-    private User offerMaker;
+    private long offerMaker;
     private long carId;
     private double offerAmount;
     private OfferStatus offerStatus;
 
     public Offer() {};
 
-    public Offer(long id, User offerMaker, long carId, double offerAmount, OfferStatus offerStatus) {
+    public Offer(long id, long offerMaker, long carId, double offerAmount, OfferStatus offerStatus) {
         this.id = id;
         this.offerMaker = offerMaker;
         this.carId = carId;
@@ -29,11 +29,11 @@ public class Offer {
         return this;
     };
 
-    public User getOfferMaker() {
+    public long getOfferMaker() {
         return offerMaker;
     };
 
-    public Offer setOfferMaker(User offerMaker) {
+    public Offer setOfferMaker(long offerMaker) {
         this.offerMaker = offerMaker;
         return this;
     };
