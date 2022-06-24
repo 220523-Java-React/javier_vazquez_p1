@@ -46,11 +46,6 @@ public class UserRepository implements DAO<User>{
         };
 
         return null;
-
-//        if(users.add(user)) {
-//            return user;
-//        }
-//        return null;
     };
 
     // Get all users

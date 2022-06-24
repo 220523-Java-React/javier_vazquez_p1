@@ -4,10 +4,7 @@ import com.carDealership.model.Car;
 import com.carDealership.util.ConnectionUtility;
 import org.postgresql.util.PSQLException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +13,36 @@ public class CarRepository implements DAO<Car> {
     // Create car
     @Override
     public Car create(Car car) {
-//        if(cars.add(car)) {
-//            return car;
-//        }
+        String sql = "insert into cars(make, model, type, year, color, price) values(?,?,?,?,?,?)";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, car.getMake());
+            stmt.setString(2, car.getModel());
+            stmt.setString(3, car.getType());
+            stmt.setInt(4, car.getYear());
+            stmt.setString(5, car.getColor());
+            stmt.setDouble(6, car.getPrice());
+
+            int success = stmt.executeUpdate();
+            ResultSet keys = stmt.getGeneratedKeys();
+            if(keys.next()) {
+                int id = keys.getInt(1);
+                if (id != 0) {
+                    return car.setId(id);
+                }
+            }
+        }
+        catch(PSQLException e) {
+            Car notACar = new Car();
+            notACar.setMake("NOT_CREATED");
+
+            return notACar;
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        };
+
         return null;
     };
 

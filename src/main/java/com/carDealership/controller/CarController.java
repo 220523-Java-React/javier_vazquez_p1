@@ -19,9 +19,29 @@ public class CarController {
     public Handler createCar = ctx -> {
 
         Car car = ctx.bodyAsClass(Car.class);
-        carService.createCar(car);
+        car = carService.createCar(car);
 
-        ctx.json(car).status(201);
+        if (car != null) {
+            if (car.getMake() == "NOT_CREATED") {
+                String failureMessage = "{" +
+                        "\"400 error\": \"Bad Request\"," +
+                        "\"message\": \"Car not created.\"" +
+                        "}";
+
+                ctx.json(failureMessage).status(400);
+            }
+            else {
+                ctx.json(car).status(201);
+            }
+        }
+        else {
+            String failureMessage = "{" +
+                    "\"400 error\": \"Bad Request\"," +
+                    "\"message\": \"User not created. Something went wrong. \"" +
+                    "}";
+
+            ctx.json(failureMessage).status(400);
+        }
     };
 
     public Handler getAllCars = ctx -> {
