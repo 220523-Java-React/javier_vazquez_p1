@@ -43,7 +43,23 @@ public class OfferController {
     };
 
     public Handler getAllOffers = ctx -> {
-        ctx.json(offerService.getAllOffers());
+        String offerMakerParam = ctx.queryParam("offerMaker");
+
+        if (offerMakerParam == null) {
+            ctx.json(offerService.getAllOffers());
+        }
+        else {
+            try {
+                long offerMaker = Long.parseLong(offerMakerParam);
+                ctx.json(offerService.getOffersByOfferMaker(offerMaker));
+            }
+            catch (NumberFormatException e ) {
+                ctx.json(offerService.getAllOffers());
+            }
+            catch (NullPointerException e) {
+                ctx.json(offerService.getAllOffers());
+            };
+        }
     };
 
     public Handler getOfferById = ctx -> {
@@ -110,6 +126,50 @@ public class OfferController {
                     "}";
 
             ctx.json(failureMessage).status(400);
+        };
+    };
+
+    public Handler deleteOfferById = ctx -> {
+        String idParam = ctx.pathParam("id");
+        try {
+            long id = Long.parseLong(idParam);
+
+            Offer offer = offerService.getOfferById(id);
+            if (offer == null) {
+                String failureMessage = "{" +
+                        "\"404 error\": \"Not Found\"," +
+                        "\"message\": \"Offer with id: " + idParam + " not found. Please enter a valid offer id.\"," +
+                        "\"message2\": \"No offer was deleted.\"" +
+                        "}";
+
+                ctx.json(failureMessage).status(404);
+            }
+
+            if (offerService.deleteOfferById(id).getOfferMaker() == -1999) {
+                String deleteSuccess = "{" +
+                        "\"200 status\": \"Success\"," +
+                        "\"message\": \"Offer with id: " + idParam + " was successfully deleted.\"," +
+                        "}";
+
+                ctx.status(200).json(deleteSuccess);
+            }
+        }
+        catch (NumberFormatException e) {
+            String failureMessage = "{" +
+                    "\"400 error\": \"Bad Request\"," +
+                    "\"message\": \"Please only enter integer values.\"" +
+                    "}";
+
+            ctx.json(failureMessage).status(400);
+        }
+        catch(NullPointerException e) {
+            String failureMessage = "{" +
+                    "\"404 error\": \"Not Found\"," +
+                    "\"message\": \"Offer with id: " + idParam + " not found. Please enter a valid offer id.\"," +
+                    "\"message2\": \"No Offer was deleted.\"" +
+                    "}";
+
+            ctx.json(failureMessage).status(404);
         };
     };
 }

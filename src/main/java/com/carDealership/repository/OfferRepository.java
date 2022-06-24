@@ -99,6 +99,34 @@ public class OfferRepository implements DAO<Offer>{
         return null;
     };
 
+    public List<Offer> getOffersByOfferMaker(long offerMaker) {
+        List<Offer> offers = new ArrayList<>();
+        String sql = "select * from offers where offer_maker = ? order by id";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setLong(1, offerMaker);
+            ResultSet results = stmt.executeQuery();
+
+            while(results.next()) {
+                offers.add(
+                        new Offer()
+                                .setId(results.getLong("id"))
+                                .setOfferMaker(results.getLong("offer_maker"))
+                                .setCarId(results.getLong("car_id"))
+                                .setOfferAmount(results.getDouble("offer_amount"))
+                                .setOfferStatus(OfferStatus.values()[results.getInt("offer_status_id")])
+                );
+            };
+        }
+        catch (SQLException e) {
+            return null;
+        };
+
+        return offers;
+
+    };
+
     @Override
     public Offer updateById(Offer offer, long id) {
         String sql = "update offers set offer_maker = ?, car_id = ?, offer_amount = ?, offer_status_id = ? where id = ? ";
@@ -133,6 +161,22 @@ public class OfferRepository implements DAO<Offer>{
 
     @Override
     public Offer deleteById(long id) {
-        return null;
+        String sql = "delete from offers where id = ?";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setLong(1, id);
+
+            int success = stmt.executeUpdate();
+
+            if (success != 0) {
+                return new Offer().setOfferMaker(-1999);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        };
+
+        return new Offer();
     };
-}
+};

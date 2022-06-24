@@ -35,6 +35,7 @@ public class Driver {
         app.get("/offer", offerController.getAllOffers);
         app.get("/offer/{id}", offerController.getOfferById);
         app.put("/offer/{id}", offerController.updateOfferById);
+        app.delete("/offer/{id}", offerController.deleteOfferById);
 
         // Dealership routes
     }

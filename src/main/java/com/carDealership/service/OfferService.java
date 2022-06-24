@@ -28,7 +28,15 @@ public class OfferService {
         return offerRepository.getById(id);
     };
 
+    public List<Offer> getOffersByOfferMaker(long offerMaker) {
+        return offerRepository.getOffersByOfferMaker(offerMaker);
+    };
+
     public Offer updateOfferById(Offer offer, long id) {
         return offerRepository.updateById(offer, id);
     };
-}
+
+    public Offer deleteOfferById(long id) {
+        return offerRepository.deleteById(id);
+    };
+};
