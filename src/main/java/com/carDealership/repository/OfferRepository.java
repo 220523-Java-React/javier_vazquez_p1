@@ -3,17 +3,43 @@ package com.carDealership.repository;
 import com.carDealership.model.Offer;
 import com.carDealership.model.OfferStatus;
 import com.carDealership.util.ConnectionUtility;
+import org.postgresql.util.PSQLException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OfferRepository implements DAO<Offer>{
     @Override
     public Offer create(Offer offer) {
+        String sql = "insert into offers(offer_maker, car_id, offer_amount, offer_status_id) values(?,?,?,?)";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stmt.setLong(1, offer.getOfferMaker());
+            stmt.setLong(2, offer.getCarId());
+            stmt.setDouble(3, offer.getOfferAmount());
+            stmt.setInt(4, offer.getOfferStatus().ordinal());
+
+            int success = stmt.executeUpdate();
+            ResultSet keys = stmt.getGeneratedKeys();
+            if(keys.next()) {
+                int id = keys.getInt(1);
+                if (id != 0) {
+                    return offer.setId(id);
+                }
+            }
+        }
+        catch(PSQLException e) {
+            Offer notAnOffer = new Offer();
+            notAnOffer.setOfferMaker(-9999);
+
+            return notAnOffer;
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        };
+
         return null;
     }
 

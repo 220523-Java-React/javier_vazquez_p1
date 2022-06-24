@@ -16,6 +16,10 @@ public class OfferService {
         this.offerRepository = offerRepository;
     };
 
+    public Offer createOffer(Offer offer) {
+        return offerRepository.create(offer);
+    }
+
     public List<Offer> getAllOffers() {
         return offerRepository.getAll();
     }
