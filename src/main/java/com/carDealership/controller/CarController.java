@@ -31,23 +31,30 @@ public class CarController {
     public Handler getCarById = ctx -> {
 
         String idParam = ctx.pathParam("id");
-        long id = -1;
 
         try {
-            id = Integer.parseInt(idParam);
-            ctx.json(carService.getCarById(id));
-        }
-        catch (NumberFormatException e) {
-            ctx.result("Please only enter integer values").status(400);
-        }
-        catch (NullPointerException e) {
+            long id = Long.parseLong(idParam);
+            Car car = carService.getCarById(id);
 
-            String failureMessage = "{" +
+            if (car != null) {
+                ctx.json(car);
+            }
+            else {
+                String failureMessage = "{" +
                     "\"404 error\": \"Car with id: " + id + " not found\"," +
                     "\"message\": \"Please enter a valid car id.\"" +
                     "}";
 
-            ctx.json(failureMessage).status(404);
+                ctx.json(failureMessage).status(404);
+            }
+        }
+        catch (NumberFormatException e) {
+            String failureMessage = "{" +
+                    "\"400 error\": \"Bad Request\"," +
+                    "\"message\": \"Please only enter integer values.\"" +
+                    "}";
+
+            ctx.json(failureMessage).status(400);
         };
     };
 

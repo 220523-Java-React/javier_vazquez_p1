@@ -53,10 +53,9 @@ public class UserController {
     public Handler getUserById = ctx -> {
 
         String idParam = ctx.pathParam("id");
-        Long id;
 
         try {
-            id = Long.parseLong(idParam);
+            long id = Long.parseLong(idParam);
             User user = userService.getUserById(id);
 
             if (user != null) {
@@ -73,7 +72,12 @@ public class UserController {
             }
         }
         catch (NumberFormatException e) {
-            ctx.result("Please only enter integer values").status(400);
+            String failureMessage = "{" +
+                    "\"400 error\": \"Bad Request\"," +
+                    "\"message\": \"Please only enter integer values.\"" +
+                    "}";
+
+            ctx.json(failureMessage).status(400);
         };
     };
 

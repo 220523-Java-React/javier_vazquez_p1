@@ -55,11 +55,32 @@ public class CarRepository implements DAO<Car> {
     // Get car by id
     @Override
     public Car getById(long id) {
-//        for (int i = 0; i < cars.size(); i++) {
-//            if (cars.get(i).getId() == id) {
-//                return cars.get(i);
-//            }
-//        }
+
+        String sql = "select * from cars where id = ?";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setLong(1, id);
+
+            ResultSet results = stmt.executeQuery();
+            if (results.next()) {
+                Car car = new Car();
+                    car
+                        .setId(results.getLong("id"))
+                        .setMake(results.getString("make"))
+                        .setModel(results.getString("model"))
+                        .setType(results.getString("type"))
+                        .setYear(results.getInt("year"))
+                        .setColor(results.getString("color"))
+                        .setPrice(results.getDouble("price"));
+
+                return car;
+            }
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        };
+
         return null;
     };
 
