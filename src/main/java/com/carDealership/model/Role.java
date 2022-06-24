@@ -1,9 +1,8 @@
 package com.carDealership.model;
 
 public enum Role {
-    MANAGER("MANAGER"),
-    SALESMAN("SALESMAN"),
-    BUYER("BUYER");
+    CUSTOMER("CUSTOMER"),
+    EMPLOYEE("EMPLOYEE");
 
     final String value;
 
