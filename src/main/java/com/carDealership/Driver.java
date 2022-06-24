@@ -33,6 +33,7 @@ public class Driver {
         // Offer routes
         app.post("/offer", offerController.createOffer);
         app.get("/offer", offerController.getAllOffers);
+        app.get("/offer/{id}", offerController.getOfferById);
 
         // Dealership routes
     }

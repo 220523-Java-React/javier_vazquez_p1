@@ -41,7 +41,7 @@ public class OfferRepository implements DAO<Offer>{
         };
 
         return null;
-    }
+    };
 
     @Override
     public List<Offer> getAll() {
@@ -69,20 +69,43 @@ public class OfferRepository implements DAO<Offer>{
         };
 
         return offers;
-    }
+    };
 
     @Override
     public Offer getById(long id) {
+        String sql = "select * from offers where id = ?";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setLong(1, id);
+
+            ResultSet results = stmt.executeQuery();
+            if (results.next()) {
+                Offer offer = new Offer();
+                offer
+                        .setId(results.getLong("id"))
+                        .setOfferMaker(results.getLong("offer_maker"))
+                        .setCarId(results.getLong("car_id"))
+                        .setOfferAmount(results.getDouble("offer_amount"))
+                        .setOfferStatus(OfferStatus.values()[results.getInt("offer_status_id")]);
+
+                return offer;
+            }
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        };
+
         return null;
-    }
+    };
 
     @Override
     public Offer updateById(Offer offer, long id) {
         return null;
-    }
+    };
 
     @Override
     public Offer deleteById(long id) {
         return null;
-    }
+    };
 }

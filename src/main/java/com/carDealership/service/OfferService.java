@@ -18,9 +18,13 @@ public class OfferService {
 
     public Offer createOffer(Offer offer) {
         return offerRepository.create(offer);
-    }
+    };
 
     public List<Offer> getAllOffers() {
         return offerRepository.getAll();
-    }
+    };
+
+    public Offer getOfferById(long id) {
+        return offerRepository.getById(id);
+    };
 }
