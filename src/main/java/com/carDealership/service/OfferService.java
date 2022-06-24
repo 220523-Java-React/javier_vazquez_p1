@@ -27,4 +27,8 @@ public class OfferService {
     public Offer getOfferById(long id) {
         return offerRepository.getById(id);
     };
+
+    public Offer updateOfferById(Offer offer, long id) {
+        return offerRepository.updateById(offer, id);
+    };
 }

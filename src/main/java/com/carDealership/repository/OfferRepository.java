@@ -101,6 +101,33 @@ public class OfferRepository implements DAO<Offer>{
 
     @Override
     public Offer updateById(Offer offer, long id) {
+        String sql = "update offers set offer_maker = ?, car_id = ?, offer_amount = ?, offer_status_id = ? where id = ? ";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setLong(1, offer.getOfferMaker());
+            stmt.setLong(2, offer.getCarId());
+            stmt.setDouble(3, offer.getOfferAmount());
+            stmt.setInt(4, offer.getOfferStatus().ordinal());
+
+            stmt.setLong(5, id);
+
+            int success = stmt.executeUpdate();
+
+            if(success != 0) {
+                return getById(id);
+            }
+        }
+        catch(PSQLException e) {
+            Offer notAnOffer = new Offer();
+            notAnOffer.setOfferMaker(-1999);
+
+            return notAnOffer;
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        };
+
         return null;
     };
 
