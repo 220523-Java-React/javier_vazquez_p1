@@ -1,6 +1,7 @@
 package com.carDealership.repository;
 
 import com.carDealership.model.Car;
+import com.carDealership.model.CarSold;
 import com.carDealership.util.ConnectionUtility;
 import org.postgresql.util.PSQLException;
 
@@ -13,7 +14,7 @@ public class CarRepository implements DAO<Car> {
     // Create car
     @Override
     public Car create(Car car) {
-        String sql = "insert into cars(make, model, type, year, color, price) values(?,?,?,?,?,?)";
+        String sql = "insert into cars(make, model, type, year, color, price, car_sold_id) values(?,?,?,?,?,?,?)";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -23,6 +24,7 @@ public class CarRepository implements DAO<Car> {
             stmt.setInt(4, car.getYear());
             stmt.setString(5, car.getColor());
             stmt.setDouble(6, car.getPrice());
+            stmt.setInt(7, car.getCarSold().ordinal());
 
             int success = stmt.executeUpdate();
             ResultSet keys = stmt.getGeneratedKeys();
@@ -67,6 +69,7 @@ public class CarRepository implements DAO<Car> {
                             .setYear(results.getInt("year"))
                             .setColor(results.getString("color"))
                             .setPrice(results.getDouble("price"))
+                            .setCarSold(CarSold.values()[results.getInt("car_sold_id")])
                 );
             };
         }
@@ -97,7 +100,8 @@ public class CarRepository implements DAO<Car> {
                         .setType(results.getString("type"))
                         .setYear(results.getInt("year"))
                         .setColor(results.getString("color"))
-                        .setPrice(results.getDouble("price"));
+                        .setPrice(results.getDouble("price"))
+                        .setCarSold(CarSold.values()[results.getInt("car_sold_id")]);
 
                 return car;
             }
@@ -112,7 +116,7 @@ public class CarRepository implements DAO<Car> {
     // Update car by id
     @Override
     public Car updateById(Car car, long id) {
-        String sql = "update cars set make = ?, model = ?, type = ?, year = ?, color = ? , price = ? where id = ? ";
+        String sql = "update cars set make = ?, model = ?, type = ?, year = ?, color = ? , price = ? , car_sold_id = ? where id = ? ";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -122,8 +126,9 @@ public class CarRepository implements DAO<Car> {
             stmt.setInt(4, car.getYear());
             stmt.setString(5, car.getColor());
             stmt.setDouble(6, car.getPrice());
+            stmt.setInt(7, car.getCarSold().ordinal());
 
-            stmt.setLong(7, id);
+            stmt.setLong(8, id);
 
             int success = stmt.executeUpdate();
 
