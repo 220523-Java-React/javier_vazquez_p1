@@ -109,7 +109,12 @@ public class UserController {
             }
         }
         catch (NumberFormatException e) {
-            ctx.result("Please only enter integer values").status(400);
+            String failureMessage = "{" +
+                    "\"400 error\": \"Bad Request\"," +
+                    "\"message\": \"Please only enter integer values.\"" +
+                    "}";
+
+            ctx.json(failureMessage).status(400);
         };
     };
 
@@ -122,6 +127,17 @@ public class UserController {
         try {
             long id = Long.parseLong(idParam);
 
+            User user = userService.getUserById(id);
+            if (user == null) {
+                String failureMessage = "{" +
+                        "\"404 error\": \"Not Found\"," +
+                        "\"message\": \"User with id: " + idParam + " not found. Please enter a valid user id.\"," +
+                        "\"message2\": \"No user was deleted.\"" +
+                        "}";
+
+                ctx.json(failureMessage).status(404);
+            }
+
             if (userService.deleteUserById(id).getFirstName() == "DELETED_USER") {
                 String deleteSuccess = "{" +
                         "\"200 status\": \"Success\"," +
@@ -130,17 +146,22 @@ public class UserController {
 
                 ctx.status(200).json(deleteSuccess);
             }
-            else {
-                String failureMessage = "{" +
-                        "\"400 error\": \"Bad Request\"," +
-                        "\"message\": \"User with id: " + idParam + " was not deleted.\"," +
-                        "}";
-
-                ctx.json(failureMessage).status(400);
-            }
+//            else {
+//                String failureMessage = "{" +
+//                        "\"400 error\": \"Bad Request\"," +
+//                        "\"message\": \"User with id: " + idParam + " was not deleted.\"," +
+//                        "}";
+//
+//                ctx.json(failureMessage).status(400);
+//            }
         }
         catch (NumberFormatException e) {
-            ctx.result("Please only enter integer values").status(400);
+            String failureMessage = "{" +
+                    "\"400 error\": \"Bad Request\"," +
+                    "\"message\": \"Please only enter integer values.\"" +
+                    "}";
+
+            ctx.json(failureMessage).status(400);
         }
         catch(NullPointerException e) {
             String failureMessage = "{" +

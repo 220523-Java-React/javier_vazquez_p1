@@ -157,24 +157,22 @@ public class UserRepository implements DAO<User>{
     // Delete user by id
     @Override
     public User deleteById(long id) {
-      String sql = "delete from users where id = ?";
+        String sql = "delete from users where id = ?";
 
-      try(Connection connection = ConnectionUtility.getConnection()) {
-          PreparedStatement stmt = connection.prepareStatement(sql);
-          stmt.setLong(1, id);
+        try(Connection connection = ConnectionUtility.getConnection()) {
+              PreparedStatement stmt = connection.prepareStatement(sql);
+              stmt.setLong(1, id);
 
-          int success = stmt.executeUpdate();
+              int success = stmt.executeUpdate();
 
-          if (success != 0) {
-              return new User().setFirstName("DELETED_USER");
-          }
-      }
-      catch (SQLException e) {
-          e.printStackTrace();
-      };
+              if (success != 0) {
+                  return new User().setFirstName("DELETED_USER");
+              }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        };
 
-        User user = getById(id);
         return new User();
-
     };
 }

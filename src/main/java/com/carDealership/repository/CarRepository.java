@@ -153,14 +153,22 @@ public class CarRepository implements DAO<Car> {
     // Delete car by id
     @Override
     public Car deleteById(long id) {
-//        for (int i = 0; i < cars.size(); i++) {
-//            if (cars.get(i).getId() == id) {
-//                cars.get(i).setColor("ERASED");
-//                cars.get(i).setMake("ERASED");
-//                cars.get(i).setModel("ERASED");
-//                return cars.get(i);
-//            }
-//        }
-        return null;
+        String sql = "delete from cars where id = ?";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setLong(1, id);
+
+            int success = stmt.executeUpdate();
+
+            if (success != 0) {
+                return new Car().setMake("DELETED_CAR");
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        };
+
+        return new Car();
     };
 }

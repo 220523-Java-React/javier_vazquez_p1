@@ -106,7 +106,12 @@ public class CarController {
             }
         }
         catch (NumberFormatException e) {
-            ctx.result("Please only enter integer values").status(400);
+            String failureMessage = "{" +
+                    "\"400 error\": \"Bad Request\"," +
+                    "\"message\": \"Please only enter integer values.\"" +
+                    "}";
+
+            ctx.json(failureMessage).status(400);
         };
     };
 
@@ -116,25 +121,53 @@ public class CarController {
 
     public Handler deleteCarById = ctx -> {
         String idParam = ctx.pathParam("id");
-        long id = -1;
-
         try {
-            id = Integer.parseInt(idParam);
-            ctx.json(carService.deleteCarById(id));
+            long id = Long.parseLong(idParam);
+
+           Car car = carService.getCarById(id);
+           if (car == null) {
+               String failureMessage = "{" +
+                       "\"404 error\": \"Not Found\"," +
+                       "\"message\": \"Car with id: " + idParam + " not found. Please enter a valid car id.\"," +
+                       "\"message2\": \"No car was deleted.\"" +
+                       "}";
+
+               ctx.json(failureMessage).status(404);
+           }
+
+            if (carService.deleteCarById(id).getMake() == "DELETED_CAR") {
+                String deleteSuccess = "{" +
+                        "\"200 status\": \"Success\"," +
+                        "\"message\": \"Car with id: " + idParam + " was successfully deleted.\"," +
+                        "}";
+
+                ctx.status(200).json(deleteSuccess);
+            }
+//            else {
+//                String failureMessage = "{" +
+//                        "\"400 error\": \"Bad Request\"," +
+//                        "\"message\": \"Car with id: " + idParam + " was not deleted.\"," +
+//                        "}";
+//
+//                ctx.json(failureMessage).status(400);
+//            }
         }
         catch (NumberFormatException e) {
-            ctx.result("Please only enter integer values").status(400);
-        }
-        catch (NullPointerException e) {
-
             String failureMessage = "{" +
-                    "\"404 error\": \"Car with id: " + id + " not found\"," +
-                    "\"message\": \"Please enter a valid car id.\"" +
+                    "\"400 error\": \"Bad Request\"," +
+                    "\"message\": \"Please only enter integer values.\"" +
+                    "}";
+
+            ctx.json(failureMessage).status(400);
+        }
+        catch(NullPointerException e) {
+            String failureMessage = "{" +
+                    "\"404 error\": \"Not Found\"," +
+                    "\"message\": \"Car with id: " + idParam + " not found. Please enter a valid car id.\"," +
+                    "\"message2\": \"No car was deleted.\"" +
                     "}";
 
             ctx.json(failureMessage).status(404);
         };
     };
-
-
 };
