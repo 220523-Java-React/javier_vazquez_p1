@@ -11,11 +11,11 @@ public class Car {
     private int year;
     private String color;
     private double price;
-    private CarSold carsold;
+    private CarSold carSold;
 
     public Car() {};
 
-    public Car(long id, String make, String model, String type, int year, String color, double price, CarSold carsold) {
+    public Car(long id, String make, String model, String type, int year, String color, double price, CarSold carSold) {
         this.id = id;
         this.make = make;
         this.model = model;
@@ -23,7 +23,7 @@ public class Car {
         this.year = year;
         this.color = color;
         this.price = price;
-        this.carsold = carsold;
+        this.carSold = carSold;
     }
 
     public long getId() {
@@ -90,11 +90,11 @@ public class Car {
     };
 
     public CarSold getCarSold() {
-        return carsold;
+        return carSold;
     };
 
-    public Car setCarSold(CarSold carsold) {
-        this.carsold = carsold;
+    public Car setCarSold(CarSold carSold) {
+        this.carSold = carSold;
         return this;
     };
 
@@ -103,12 +103,12 @@ public class Car {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return id == car.id && year == car.year && Double.compare(car.price, price) == 0 && Objects.equals(make, car.make) && Objects.equals(model, car.model) && Objects.equals(type, car.type) && Objects.equals(color, car.color) && carsold == car.carsold;
+        return id == car.id && year == car.year && Double.compare(car.price, price) == 0 && Objects.equals(make, car.make) && Objects.equals(model, car.model) && Objects.equals(type, car.type) && Objects.equals(color, car.color) && carSold == car.carSold;
     };
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, make, model, type, year, color, price, carsold);
+        return Objects.hash(id, make, model, type, year, color, price, carSold);
     };
 
     @Override
@@ -121,7 +121,7 @@ public class Car {
                 ", year=" + year +
                 ", color='" + color + '\'' +
                 ", price=" + price +
-                ", carsold=" + carsold +
+                ", carSold=" + carSold +
                 '}';
     };
 };

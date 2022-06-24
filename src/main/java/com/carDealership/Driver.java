@@ -1,6 +1,7 @@
 package com.carDealership;
 
 import com.carDealership.controller.CarController;
+import com.carDealership.controller.DealerLotController;
 import com.carDealership.controller.OfferController;
 import com.carDealership.controller.UserController;
 import io.javalin.Javalin;
@@ -12,6 +13,7 @@ public class Driver {
         UserController userController = new UserController();
         CarController carController = new CarController();
         OfferController offerController = new OfferController();
+        DealerLotController dealerLotController = new DealerLotController();
 
         app.get("/", ctx -> ctx.result("Hello Welcome to Javy's Luxury Auto Dealership"));
 
@@ -38,5 +40,6 @@ public class Driver {
         app.delete("/offer/{id}", offerController.deleteOfferById);
 
         // Dealership routes
+        app.get("/lot", dealerLotController.getCarsOnLot);
     }
 }
