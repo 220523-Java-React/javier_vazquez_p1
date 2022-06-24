@@ -59,10 +59,35 @@ public class CarController {
     };
 
     public Handler updateCarById = ctx -> {
-        Car car = new Car();
+        String idParam = ctx.pathParam("id");
 
-//        carService.updateCarById(car, id);
-        ctx.result("updated");
+        try {
+            long id = Long.parseLong(idParam);
+
+            Car car = ctx.bodyAsClass(Car.class);
+            car = carService.updateCarById(car, id);
+
+            if (car != null) {
+                if (car.getMake() != "NOT_UPDATED") {
+                    ctx.json(car);
+                }
+                else {
+                    ctx.result("Not Updated");
+                }
+            }
+            else {
+                String failureMessage = "{" +
+                        "\"404 error\": \"Car Not Found\"," +
+                        "\"message\": \"Car with id: " + id + " not found\"," +
+                        "\"message2\": \"Please enter a valid car id.\"" +
+                        "}";
+
+                ctx.json(failureMessage).status(404);
+            }
+        }
+        catch (NumberFormatException e) {
+            ctx.result("Please only enter integer values").status(400);
+        };
     };
 
 //    public Handler updateCarByParams = ctx -> {

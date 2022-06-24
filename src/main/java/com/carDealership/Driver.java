@@ -26,6 +26,7 @@ public class Driver {
         app.post("/car", carController.createCar);
         app.get("/car", carController.getAllCars);
         app.get("/car/{id}", carController.getCarById);
+        app.put("/car/{id}", carController.updateCarById);
         app.delete("/car/{id}", carController.deleteCarById);
 
 

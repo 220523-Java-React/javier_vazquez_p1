@@ -83,10 +83,9 @@ public class UserController {
 
     public Handler updateUserById = ctx -> {
         String idParam = ctx.pathParam("id");
-        Long id;
 
         try {
-            id = Long.parseLong(idParam);
+            long id = Long.parseLong(idParam);
 
             User user = ctx.bodyAsClass(User.class);
                  user = userService.updateUserById(user, id);

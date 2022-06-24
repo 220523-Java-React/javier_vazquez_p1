@@ -2,6 +2,7 @@ package com.carDealership.repository;
 
 import com.carDealership.model.Car;
 import com.carDealership.util.ConnectionUtility;
+import org.postgresql.util.PSQLException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -87,6 +88,35 @@ public class CarRepository implements DAO<Car> {
     // Update car by id
     @Override
     public Car updateById(Car car, long id) {
+        String sql = "update cars set make = ?, model = ?, type = ?, year = ?, color = ? , price = ? where id = ? ";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, car.getMake());
+            stmt.setString(2, car.getModel());
+            stmt.setString(3, car.getType());
+            stmt.setInt(4, car.getYear());
+            stmt.setString(5, car.getColor());
+            stmt.setDouble(6, car.getPrice());
+
+            stmt.setLong(7, id);
+
+            int success = stmt.executeUpdate();
+
+            if(success != 0) {
+                return getById(id);
+            }
+        }
+        catch(PSQLException e) {
+            Car notACar = new Car();
+            notACar.setMake("NOT_UPDATED");
+
+            return notACar;
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        };
+
         return null;
     };
 
