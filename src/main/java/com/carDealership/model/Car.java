@@ -7,18 +7,18 @@ public class Car {
     private long id;
     private String make;
     private String model;
-    private String trim;
+    private String type;
     private int year;
     private String color;
     private double price;
 
     public Car() {};
 
-    public Car(long id, String make, String model, String trim, int year, String color, double price) {
+    public Car(long id, String make, String model, String type, int year, String color, double price) {
         this.id = id;
         this.make = make;
         this.model = model;
-        this.trim = trim;
+        this.type = type;
         this.year = year;
         this.color = color;
         this.price = price;
@@ -51,12 +51,12 @@ public class Car {
         return this;
     };
 
-    public String getTrim() {
-        return trim;
+    public String getType() {
+        return type;
     };
 
-    public Car setTrim(String trim) {
-        this.trim = trim;
+    public Car setType(String type) {
+        this.type = type;
         return this;
     };
 
@@ -92,12 +92,12 @@ public class Car {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return id == car.id && year == car.year && Double.compare(car.price, price) == 0 && Objects.equals(make, car.make) && Objects.equals(model, car.model) && Objects.equals(trim, car.trim) && Objects.equals(color, car.color);
+        return id == car.id && year == car.year && Double.compare(car.price, price) == 0 && Objects.equals(make, car.make) && Objects.equals(model, car.model) && Objects.equals(type, car.type) && Objects.equals(color, car.color);
     };
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, make, model, trim, year, color, price);
+        return Objects.hash(id, make, model, type, year, color, price);
     };
 
     @Override
@@ -106,7 +106,7 @@ public class Car {
                 "id=" + id +
                 ", make='" + make + '\'' +
                 ", model='" + model + '\'' +
-                ", trim='" + trim + '\'' +
+                ", type='" + type + '\'' +
                 ", year=" + year +
                 ", color='" + color + '\'' +
                 ", price=" + price +

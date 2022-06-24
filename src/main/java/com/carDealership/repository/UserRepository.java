@@ -68,7 +68,7 @@ public class UserRepository implements DAO<User>{
             while(results.next()) {
                 users.add(
                     new User()
-                        .setId(results.getInt("id"))
+                        .setId(results.getLong("id"))
                         .setFirstName(results.getString("first_name"))
                         .setLastName(results.getString("last_name"))
                         .setUsername(results.getString("username"))

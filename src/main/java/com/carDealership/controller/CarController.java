@@ -25,7 +25,6 @@ public class CarController {
     };
 
     public Handler getAllCars = ctx -> {
-
         ctx.json(carService.getAllCars());
     };
 
